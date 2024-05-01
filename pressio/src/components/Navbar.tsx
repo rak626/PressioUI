@@ -18,8 +18,8 @@ const Navbar = () => {
           <Image
             src={'/icons/InkTownLogo.svg'}
             alt="logo"
-            width={50}
-            height={50}
+            width={70}
+            height={70}
           />
         </Link>
       </div>
@@ -30,7 +30,7 @@ const Navbar = () => {
             pathName === navlink.href || pathName.startsWith(`${navlink.href}/`)
           return (
             <Link key={navlink.name} href={navlink.href}>
-              <div className={cn({ 'text-orange-400': isActive })}>
+              <div className={cn('tracking-widest', { 'text-orange-600': isActive })}>
                 {navlink.name}
               </div>
             </Link>

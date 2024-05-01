@@ -8,7 +8,6 @@ const HomeLayout = ({ children }: { children: ReactNode }) => {
     <main className="relative">
       <Navbar />
       {children}
-      <Footer />
     </main>
   )
 }

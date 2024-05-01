@@ -1,8 +1,11 @@
+import Footer from '@/components/Footer'
+import Hero from '@/components/Hero'
 
 export default function Home() {
   return (
-   <main>
-    <h1>Pressio UI</h1>
-   </main>
-  );
+    <main>
+      <Hero />
+      <Footer />
+    </main>
+  )
 }
