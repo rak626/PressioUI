@@ -112,50 +112,48 @@ export function DataTable<TData, TValue>({
   }
   return (
     <div>
-      <div className="flex flex-col gap-4 py-4">
+      <div className="flex flex-col gap-4 py-4 lg:flex-row justify-between">
         {/* Filter Preview */}
-        <div className="flex flex-col gap-4 ">
+        <div className="flex flex-col gap-4 lg:flex-row">
           {/* global filter */}
           <Input
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="text-white w-3/5 rounded-md"
+            className="text-white w-3/5"
           />
           {/* order status filter */}
-          <div>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="w-2/5">Order Status</Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuRadioGroup
-                  value={
-                    (table
-                      .getColumn('orderStatus')
-                      ?.getFilterValue() as string) ?? ''
-                  }
-                  onValueChange={(value) =>
-                    table.getColumn('orderStatus')?.setFilterValue(value)
-                  }
-                >
-                  <DropdownMenuItem>
-                    <DropdownMenuLabel>Order Status</DropdownMenuLabel>
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  {Object.keys(OrderStatus).map((status) => {
-                    return (
-                      <DropdownMenuRadioItem key={status} value={status}>
-                        {OrderStatus[+status]}
-                      </DropdownMenuRadioItem>
-                    )
-                  })}
-                </DropdownMenuRadioGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="w-2/5">Order Status</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuRadioGroup
+                value={
+                  (table
+                    .getColumn('orderStatus')
+                    ?.getFilterValue() as string) ?? ''
+                }
+                onValueChange={(value) =>
+                  table.getColumn('orderStatus')?.setFilterValue(value)
+                }
+              >
+                <DropdownMenuItem>
+                  <DropdownMenuLabel>Order Status</DropdownMenuLabel>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                {Object.keys(OrderStatus).map((status) => {
+                  return (
+                    <DropdownMenuRadioItem key={status} value={status}>
+                      {OrderStatus[+status]}
+                    </DropdownMenuRadioItem>
+                  )
+                })}
+              </DropdownMenuRadioGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         {/* column select button */}
-        <div>
+        <div className='flex lg:flex-row lg:justify-end lg:w-1/5'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className="w-2/5">Columns</Button>
@@ -243,7 +241,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {/* Pagination Preview */}
-      <div className="flex flex-col justify-end space-x-2 py-6 gap-4">
+      <div className="flex flex-col justify-end space-x-2 py-6 gap-4 lg:flex-row">
         <div className="flex items-center justify-end space-x-2">
           <Button
             variant="outline"
