@@ -37,6 +37,7 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { Input } from './ui/input'
+import { ScrollArea, ScrollBar } from './ui/scroll-area'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -111,24 +112,22 @@ export function DataTable<TData, TValue>({
   }
   return (
     <div>
-      <div className="flex justify-between items-center pb-4">
+      <div className="flex flex-col gap-4 py-4">
         {/* Filter Preview */}
-        <div className="flex justify-start gap-4 ">
+        <div className="flex flex-col gap-4 ">
           {/* global filter */}
-          <div>
-            <Input
-              value={globalFilter}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-              className="text-white"
-            />
-          </div>
+          <Input
+            value={globalFilter}
+            onChange={(e) => setGlobalFilter(e.target.value)}
+            className="text-white w-3/5 rounded-md"
+          />
           {/* order status filter */}
           <div>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline">Order Status</Button>
+                <Button className="w-2/5">Order Status</Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56">
+              <DropdownMenuContent>
                 <DropdownMenuRadioGroup
                   value={
                     (table
@@ -159,7 +158,7 @@ export function DataTable<TData, TValue>({
         <div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline">Columns</Button>
+              <Button className="w-2/5">Columns</Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuCheckboxItem
@@ -244,65 +243,63 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       {/* Pagination Preview */}
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              Go to page
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Page</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {Array.from({ length: table.getPageCount() }, (_, i) => (
-              <DropdownMenuCheckboxItem
-                key={i}
-                checked={table.getState().pagination.pageIndex === i}
-                onCheckedChange={(value) => table.setPageIndex(value ? i : 0)}
-              >
-                {i + 1}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm">
-              Show
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuLabel>Records</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            {[10, 25, 50, 100].map((value) => (
-              <DropdownMenuCheckboxItem
-                key={value}
-                checked={table.getState().pagination.pageSize === value}
-                onCheckedChange={(checked) =>
-                  table.setPageSize(checked ? value : 10)
-                }
-              >
-                {value}
-              </DropdownMenuCheckboxItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
+      <div className="flex flex-col justify-end space-x-2 py-6 gap-4">
+        <div className="flex items-center justify-end space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+        {/* page selection */}
+        <div className="flex items-center justify-end gap-4">
+          <Input
+            className="w-[70px] h-[30px] text-white"
+            defaultValue={table.getState().pagination.pageIndex + 1}
+            onChange={(e) => {
+              const page = e.target.value ? Number(e.target.value) - 1 : 0
+              table.setPageIndex(page)
+            }}
+            type="number"
+          />
+          <span className="text-white">of {table.getPageCount()}</span>
+        </div>
+        {/* Page size */}
+        <div className="flex justify-end ">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size={'sm'}>
+                Show
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>Records</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              {[10, 25, 50, 100].map((value) => (
+                <DropdownMenuCheckboxItem
+                  key={value}
+                  checked={table.getState().pagination.pageSize === value}
+                  onCheckedChange={(checked) =>
+                    table.setPageSize(checked ? value : 10)
+                  }
+                >
+                  {value}
+                </DropdownMenuCheckboxItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
     </div>
   )
