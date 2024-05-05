@@ -3,8 +3,6 @@
 import {
   ColumnDef,
   ColumnFiltersState,
-  GlobalFilterColumn,
-  GlobalFilterTableState,
   SortingState,
   VisibilityState,
   flexRender,
@@ -23,6 +21,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { OrderStatus } from '@/utils/orderStatus'
+import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
+import { ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 import { Button } from './ui/button'
 import {
   DropdownMenu,
@@ -34,12 +36,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
-import { FormEventHandler, useState } from 'react'
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import { OrderStatus } from '@/utils/orderStatus'
-import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { Input } from './ui/input'
-import { ValueIcon } from '@radix-ui/react-icons'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -52,7 +49,20 @@ export function DataTable<TData, TValue>({
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
   const [globalFilter, setGlobalFilter] = useState('')
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    orderId: true,
+    orderName: true,
+    orderStatus: true,
+    squareFeet: true,
+    orderDesc: false,
+    isUrgent: true,
+    createdBy: false,
+    assignedTo: false,
+    createdAt: true,
+    lastModifiedAt: true,
+    userNameOfEmp: true,
+    userNameOfCustomer: true,
+  })
   const table = useReactTable({
     data,
     columns,
@@ -61,23 +71,6 @@ export function DataTable<TData, TValue>({
       columnFilters,
       globalFilter,
       columnVisibility,
-    },
-    initialState: {
-      columnVisibility: {
-        orderId: true,
-        orderName: true,
-        orderPrice: false,
-        orderStatus: true,
-        squareFeet: true,
-        orderDesc: false,
-        isUrgent: false,
-        createdBy: false,
-        assignedTo: false,
-        createdAt: false,
-        lastModifiedAt: false,
-        userNameOfEmp: false,
-        userNameOfCustomer: false,
-      },
     },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -90,6 +83,32 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
   })
 
+  /**
+   * Returns the sort indicator for the given column.
+   * @param isSorted - Whether the column is sorted or not.
+   * @returns The sort indicator to be displayed.
+   */
+  function getSortIndicator(
+    isSorted: boolean | string | null
+  ): JSX.Element | null {
+    console.log('sorted value :', isSorted)
+    switch (isSorted) {
+      case 'asc':
+        return (
+          <span className="inline-block">
+            <ChevronUp size={16} />
+          </span>
+        )
+      case 'desc':
+        return (
+          <span className="inline-block">
+            <ChevronDown size={16} />
+          </span>
+        )
+      default:
+        return null
+    }
+  }
   return (
     <div>
       <div className="flex justify-between items-center pb-4">
@@ -186,27 +205,7 @@ export function DataTable<TData, TValue>({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-                      {
-                        {
-                          asc: (
-                            <span className="inline-block">
-                              <ChevronUp size={16} />
-                            </span>
-                          ),
-                          desc: (
-                            <span className="inline-block">
-                              <ChevronDown size={16} />
-                            </span>
-                          ),
-                          none: '',
-                        }[
-                          header.column.getIsSorted() === false
-                            ? 'none'
-                            : header.column.getIsSorted()
-                            ? 'desc'
-                            : 'asc'
-                        ]
-                      }
+                      {getSortIndicator(header.column.getIsSorted())}
                     </TableHead>
                   )
                 })}
@@ -235,7 +234,7 @@ export function DataTable<TData, TValue>({
               <TableRow>
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center"
+                  className="h-20 text-center text-2xl text-white"
                 >
                   No results.
                 </TableCell>

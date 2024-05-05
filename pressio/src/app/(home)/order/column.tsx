@@ -94,11 +94,11 @@ export const columns: ColumnDef<Order>[] = [
   },
   {
     accessorKey: 'userNameOfEmp',
-    header: 'User Name Of Emp',
+    header: 'Empolyee Name',
   },
   {
     accessorKey: 'userNameOfCustomer',
-    header: 'User Name Of Customer',
+    header: 'Customer Name',
   },
   {
     id: 'actions',
