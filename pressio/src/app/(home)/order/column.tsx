@@ -1,17 +1,16 @@
 'use client'
-import { OrderStatus } from '@/utils/orderStatus'
-import { ColumnDef, createColumnHelper } from '@tanstack/react-table'
-import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { OrderStatus } from '@/utils/orderStatus'
+import { ColumnDef, FilterFn, Row } from '@tanstack/react-table'
+import { log } from 'console'
 import { MoreHorizontal } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 export type Order = {
   orderId: string
@@ -24,8 +23,8 @@ export type Order = {
   assignedTo: string
   createdAt: string
   lastModifiedAt: string
-  userNameOfEmp: string
-  userNameOfCustomer: string
+  userNameOfEmp?: string
+  userNameOfCustomer?: string
 }
 
 export const columns: ColumnDef<Order>[] = [
@@ -39,7 +38,7 @@ export const columns: ColumnDef<Order>[] = [
     cell: ({ row }) => (
       <Link
         href={`/order/${row.getValue('orderId')}`}
-        className="hover:underline hover:decoration-blue-500 hover:text-blue-600"
+        className="hover:underline decoration-blue-500 hover:text-blue-600"
       >
         {row.getValue('orderName')}
       </Link>
@@ -60,10 +59,22 @@ export const columns: ColumnDef<Order>[] = [
       const orderStatus: number = row.getValue('orderStatus')
       return OrderStatus[orderStatus]
     },
+    filterFn: (row, columnId, filterValue) => {
+      const orderStatus: number = row.getValue(columnId)
+      return orderStatus === parseInt(filterValue)
+    },
   },
   {
     accessorKey: 'isUrgent',
     header: 'Is Urgent',
+    cell: ({ row }) => {
+      const isUrgent: boolean = row.getValue('isUrgent')
+      return isUrgent ? (
+        <div className="bg-green-500 text-black rounded-md">Yes</div>
+      ) : (
+        <div className="bg-yellow-500 text-black rounded-md">No</div>
+      )
+    },
   },
   {
     accessorKey: 'createdBy',

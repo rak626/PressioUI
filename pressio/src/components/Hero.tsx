@@ -8,7 +8,7 @@ const Hero = () => {
         <div className="absolute inset-0">
           <Image
             className="object-cover object-right w-full h-full lg:object-center"
-            src="/images/hero1.jpg"
+            src="/images/hero2.jpg"
             alt=""
             width={1000}
             height={1000}
@@ -26,9 +26,9 @@ const Hero = () => {
               We care about your satisfaction with the final product. We want
               you to be 100% happy with what we deliver, so we take the time to
               ensure every single order meets your high standards. We care about
-              the details, from the paper quality to the precision of the
-              printing. We also care about your timeline, so we work fast and
-              efficiently to get your job done as soon as possible.
+              the details, from quality to the precision of the printing. We
+              also care about your timeline, so we work fast and efficiently to
+              get your job done as soon as possible.
             </p>
 
             <form action="#" className="max-w-xl mx-auto mt-10">
