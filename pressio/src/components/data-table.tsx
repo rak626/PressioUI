@@ -120,6 +120,7 @@ export function DataTable<TData, TValue>({
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="text-white w-3/5"
+            placeholder='Search...'
           />
           {/* order status filter */}
           <DropdownMenu>
@@ -156,7 +157,7 @@ export function DataTable<TData, TValue>({
         <div className='flex lg:flex-row lg:justify-end lg:w-1/5'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="w-2/5">Columns</Button>
+              <Button className="w-2/5">Columns <ChevronDown size={20} className='ml-2'/></Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuCheckboxItem

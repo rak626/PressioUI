@@ -4,28 +4,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import { Order } from '@/lib/types/order-types'
 import { OrderStatus } from '@/utils/orderStatus'
-import { ColumnDef, FilterFn, Row } from '@tanstack/react-table'
-import { log } from 'console'
+import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 
-export type Order = {
-  orderId: string
-  orderName: string
-  orderDesc: string
-  squareFeet: number
-  orderStatus: number
-  isUrgent: boolean
-  createdBy: string
-  assignedTo: string
-  createdAt: string
-  lastModifiedAt: string
-  userNameOfEmp?: string
-  userNameOfCustomer?: string
-}
+
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -114,15 +103,17 @@ export const columns: ColumnDef<Order>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {/* <DropdownMenuLabel>Actions</DropdownMenuLabel> */}
+            <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
               onClick={() => navigator.clipboard.writeText(order.orderId)}
             >
               Copy Order ID
             </DropdownMenuItem>
-            {/* <DropdownMenuSeparator /> */}
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>
+              <Link href={`/order/${order.orderId}`}>View Order</Link>
+            </DropdownMenuItem>
+            <DropdownMenuItem>Change Order Status</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       )
