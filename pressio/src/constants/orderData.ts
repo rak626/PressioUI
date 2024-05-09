@@ -1,4 +1,5 @@
-import { Order } from '../app/(home)/order/column'
+import { Order } from "@/lib/types/order-types";
+
 
 export const orders: Order[] = [
   {
