@@ -5,7 +5,7 @@ import { orders } from '@/constants/orderData'
 
 const OrderPage = () => {
   return (
-    <div className="px-10 pt-20 min-h-screen h-full bg-gradient-to-tr from-[rgb(0,0,0)]  to-[rgb(78,75,75)]">
+    <div className="px-10 pt-20 min-h-screen h-full">
       <div className=''>
         <DataTable columns={columns} data={orders} />
       </div>

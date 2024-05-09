@@ -1,8 +1,4 @@
-import { cn } from '@/lib/utils'
-import React from 'react'
 import { Label } from './ui/label'
-import { Input } from './ui/input'
-import { Textarea } from './ui/textarea'
 
 const OrderParagraph = ({
   header,
