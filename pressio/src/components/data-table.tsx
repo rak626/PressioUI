@@ -73,6 +73,10 @@ export function DataTable<TData, TValue>({
       globalFilter,
       columnVisibility,
     },
+    initialState: {
+      pagination: { pageIndex: 0, pageSize: 10 },
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -92,7 +96,6 @@ export function DataTable<TData, TValue>({
   function getSortIndicator(
     isSorted: boolean | string | null
   ): JSX.Element | null {
-    console.log('sorted value :', isSorted)
     switch (isSorted) {
       case 'asc':
         return (
@@ -120,7 +123,7 @@ export function DataTable<TData, TValue>({
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
             className="text-white w-3/5"
-            placeholder='Search...'
+            placeholder="Search..."
           />
           {/* order status filter */}
           <DropdownMenu>
@@ -154,10 +157,12 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
         {/* column select button */}
-        <div className='flex lg:flex-row lg:justify-end lg:w-1/5'>
+        <div className="flex lg:flex-row lg:justify-end lg:w-1/5 gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="w-2/5">Columns <ChevronDown size={20} className='ml-2'/></Button>
+              <Button className="w-2/5">
+                Columns <ChevronDown size={20} className="ml-2" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuCheckboxItem
@@ -182,6 +187,18 @@ export function DataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button
+            className="w-1/5"
+            onClick={() => {
+              table.resetPagination()
+              table.resetGlobalFilter()
+              table.resetSorting()
+              table.resetColumnFilters()
+              table.resetColumnVisibility()
+            }}
+          >
+            Reset
+          </Button>
         </div>
       </div>
       {/* Table preview */}
