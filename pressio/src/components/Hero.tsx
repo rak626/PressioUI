@@ -79,7 +79,7 @@ const Hero = () => {
                                 uppercase
                                 transition-all
                                 duration-200
-                                bg-gray-800
+                                bg-primary
                                 border border-transparent
                                 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-white
                                 hover:bg-gray-700

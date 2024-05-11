@@ -2,7 +2,8 @@ import React from 'react'
 
 const CreateOrderPage = () => {
   return (
-	<div>CreateOrderPage</div>
+	<section className='min-h-screen text-secondary'>
+    CreateOrderPage</section>
   )
 }
 
