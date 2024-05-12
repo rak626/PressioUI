@@ -38,14 +38,11 @@ const CreateOrderPage = () => {
   }
   return (
     <main className=" w-1/4 mx-auto min-h-screen py-[7rem]">
-      <Card className="">
+      <Card className="bg-card-foreground text-card">
         <CardHeader>Create New Order</CardHeader>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(submitHandler)}
-            className="flex flex-col gap-4 "
-          >
-            <CardContent>
+          <form onSubmit={form.handleSubmit(submitHandler)}>
+            <CardContent className="flex flex-col gap-4 ">
               <FormField
                 control={form.control}
                 name="orderName"

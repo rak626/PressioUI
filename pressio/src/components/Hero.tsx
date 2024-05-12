@@ -9,9 +9,10 @@ const Hero = () => {
           <Image
             className="object-cover object-right w-full h-full lg:object-center"
             src="/images/hero2.jpg"
-            alt=""
+            alt="Inktown"
             width={1000}
             height={1000}
+            priority
           />
         </div>
 
