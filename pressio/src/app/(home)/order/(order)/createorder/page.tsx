@@ -1,6 +1,8 @@
 'use client'
+import { CustomInput } from '@/components/CustomInput'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
+import { Checkbox } from '@/components/ui/checkbox'
 import {
   Form,
   FormControl,
@@ -36,104 +38,105 @@ const CreateOrderPage = () => {
     console.log('data .. . ... ')
     console.log({ data })
   }
+
   return (
-    <main className=" w-1/4 mx-auto min-h-screen py-[7rem]">
-      <Card className="bg-card-foreground text-card">
-        <CardHeader>Create New Order</CardHeader>
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(submitHandler)}>
-            <CardContent className="flex flex-col gap-4 ">
-              <FormField
-                control={form.control}
-                name="orderName"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Order Name</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Order Name"
-                          type="text"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )
-                }}
-              />
-              <FormField
-                control={form.control}
-                name="orderDesc"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Order Desc</FormLabel>
-                      <FormControl>
-                        <Textarea placeholder="Order Desc" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )
-                }}
-              />
-              <FormField
-                control={form.control}
-                name="squareFeet"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Square Feet</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="Square Feet"
-                          type="number"
-                          onChange={(data) =>
-                            field.onChange(Number(data.target.value))
-                          }
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )
-                }}
-              />
-              <FormField
-                control={form.control}
-                name="isUrgent"
-                render={({ field }) => {
-                  return (
-                    <FormItem>
-                      <FormLabel>Is Urgent</FormLabel>
-                      <Select
-                        onValueChange={(data) =>
-                          field.onChange(data === 'true' ? true : false)
+    <main className=" container mx-auto min-h-screen pt-36 overflow-y-auto">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(submitHandler)}>
+          <div className="flex flex-col gap-10">
+            <FormField
+              control={form.control}
+              name="orderName"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="text-white text-lg">
+                      Order Name
+                    </FormLabel>
+                    <FormControl>
+                      <CustomInput type="text" {...field} className="" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="orderDesc"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="text-white text-lg">
+                      Order Desc
+                    </FormLabel>
+                    <FormControl>
+                      <CustomInput type="text" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="squareFeet"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="text-white text-lg">
+                      Square Feet
+                    </FormLabel>
+                    <FormControl>
+                      <CustomInput
+                        type="text"
+                        onChange={(data) =>
+                          field.onChange(Number(data.target.value))
                         }
-                      >
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select Is Urgent" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          <SelectItem value={'true'}>Yes</SelectItem>
-                          <SelectItem value={'false'}>No</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )
-                }}
-              />
-            </CardContent>
-            <CardFooter>
-              <Button type="submit" className="w-full">
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="isUrgent"
+              render={({ field }) => {
+                return (
+                  <FormItem className="">
+                    <FormLabel
+                      className="text-white text-lg flex gap-8 items-center justify-start"
+                      htmlFor="terms"
+                    >
+                      Is Urgent
+                      <FormControl>
+                        <Checkbox
+                          id="terms"
+                          onCheckedChange={(data) => {
+                            field.onChange(data)
+                          }}
+                        />
+                      </FormControl>
+                    </FormLabel>
+
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className="flex justify-end items-center gap-6">
+              <Button type="reset" className="w-24">
+                Reset
+              </Button>
+              <Button type="submit" className="">
                 Submit
               </Button>
-            </CardFooter>
-          </form>
-        </Form>
-      </Card>
+            </div>
+          </div>
+        </form>
+      </Form>
     </main>
   )
 }
