@@ -25,6 +25,7 @@ import { OrderStatus } from '@/utils/orderStatus'
 import { DropdownMenuItem } from '@radix-ui/react-dropdown-menu'
 import { ChevronDown, ChevronUp } from 'lucide-react'
 import { useState } from 'react'
+import { CustomInput } from './CustomInput'
 import { Button } from './ui/button'
 import {
   DropdownMenu,
@@ -37,7 +38,6 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { Input } from './ui/input'
-import { ScrollArea, ScrollBar } from './ui/scroll-area'
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
@@ -73,6 +73,10 @@ export function DataTable<TData, TValue>({
       globalFilter,
       columnVisibility,
     },
+    initialState: {
+      pagination: { pageIndex: 0, pageSize: 10 },
+      columnVisibility,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
@@ -92,7 +96,6 @@ export function DataTable<TData, TValue>({
   function getSortIndicator(
     isSorted: boolean | string | null
   ): JSX.Element | null {
-    console.log('sorted value :', isSorted)
     switch (isSorted) {
       case 'asc':
         return (
@@ -119,8 +122,8 @@ export function DataTable<TData, TValue>({
           <Input
             value={globalFilter}
             onChange={(e) => setGlobalFilter(e.target.value)}
-            className="text-white w-3/5"
-            placeholder='Search...'
+            className="text-white w-3/5 "
+            placeholder="Search..."
           />
           {/* order status filter */}
           <DropdownMenu>
@@ -154,10 +157,12 @@ export function DataTable<TData, TValue>({
           </DropdownMenu>
         </div>
         {/* column select button */}
-        <div className='flex lg:flex-row lg:justify-end lg:w-1/5'>
+        <div className="flex lg:flex-row lg:justify-end lg:w-1/5 gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="w-2/5">Columns <ChevronDown size={20} className='ml-2'/></Button>
+              <Button className="w-2/5">
+                Columns <ChevronDown size={20} className="ml-2" />
+              </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
               <DropdownMenuCheckboxItem
@@ -182,14 +187,27 @@ export function DataTable<TData, TValue>({
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
+          <Button
+            className="w-1/5"
+            onClick={() => {
+              table.resetPagination()
+              table.resetGlobalFilter()
+              table.resetSorting()
+              table.resetColumnFilters()
+              table.resetColumnVisibility()
+              setGlobalFilter('')
+            }}
+          >
+            Reset
+          </Button>
         </div>
       </div>
       {/* Table preview */}
-      <div className="rounded-lg border border-gray-400 overflow-hidden backdrop-blur-3xl bg-opacity-30">
+      <div className=" overflow-hidden rounded-sm border-b py-3">
         <Table>
-          <TableHeader className="bg-[rgb(71,114,223)] ">
+          <TableHeader className="bg-primary shadow-lg">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="border-none">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
@@ -216,7 +234,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
-                  className="transition-colors bg-blue-500/10 hover:bg-muted/60"
+                  className="transition-colors bg-table-foreground hover:bg-table border-none"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id} className="text-center text-white">
@@ -263,14 +281,14 @@ export function DataTable<TData, TValue>({
         </div>
         {/* page selection */}
         <div className="flex items-center justify-end gap-4">
-          <Input
-            className="w-[70px] h-[30px] text-white"
+          <CustomInput
+            className="w-[50px] h-[30px] text-white text-center"
             defaultValue={table.getState().pagination.pageIndex + 1}
             onChange={(e) => {
               const page = e.target.value ? Number(e.target.value) - 1 : 0
               table.setPageIndex(page)
             }}
-            type="number"
+            type="text"
           />
           <span className="text-white">of {table.getPageCount()}</span>
         </div>
