@@ -1,4 +1,5 @@
 'use client'
+import TableAction from '@/components/TableAction'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -13,8 +14,6 @@ import { OrderStatus } from '@/utils/orderStatus'
 import { ColumnDef } from '@tanstack/react-table'
 import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
-
-
 
 export const columns: ColumnDef<Order>[] = [
   {
@@ -94,29 +93,7 @@ export const columns: ColumnDef<Order>[] = [
     header: 'Actions',
     cell: ({ row }) => {
       const order = row.original
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(order.orderId)}
-            >
-              Copy Order ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href={`/order/${order.orderId}`}>View Order</Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>Change Order Status</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
+      return <TableAction order={order} />
     },
   },
 ]

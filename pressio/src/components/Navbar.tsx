@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils'
 const Navbar = () => {
   const pathName = usePathname()
   return (
-    <nav className="w-full z-40 px-6 py-2 flex items-center justify-between gap-8 bg-[#A63553] lg:justify-around">
+    <nav className="w-full z-40 px-6 py-2 flex items-center justify-between gap-8 bg-nav text-secondary shadow-2xl bg-blur-sm lg:justify-around">
       {/* logo section */}
       <div className="flex items-center justify-center">
         <Link href="/">
@@ -20,7 +20,7 @@ const Navbar = () => {
             alt="logo"
             width={70}
             height={70}
-            className='bg-[hsl(0,12%,68%)] rounded-full'
+            className='bg-[hsl(0,7%,19%)] rounded-full shadow-sm'
           />
         </Link>
       </div>
