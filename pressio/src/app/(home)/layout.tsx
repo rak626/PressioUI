@@ -3,7 +3,7 @@ import { ReactNode } from 'react'
 
 const HomeLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <main className="relative bg-gradient-to-tr bg-nav-foreground">
+    <main className="bg-nav">
       <Navbar />
       {children}
     </main>
