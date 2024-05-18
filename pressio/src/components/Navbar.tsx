@@ -31,7 +31,7 @@ const Navbar = () => {
             pathName === navlink.href || pathName.startsWith(`${navlink.href}/`)
           return (
             <Link key={navlink.name} href={navlink.href}>
-              <div className={cn('tracking-widest', { 'text-orange-600': isActive })}>
+              <div className={cn('tracking-widest hover:text-primary/40', { 'text-primary': isActive })}>
                 {navlink.name}
               </div>
             </Link>

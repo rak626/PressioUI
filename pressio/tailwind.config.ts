@@ -54,7 +54,6 @@ const config = {
         },
         nav: {
           DEFAULT: '#202124',
-          foreground: '#232020',
         },
         table:{
           DEFAULT: "#91405A80",
