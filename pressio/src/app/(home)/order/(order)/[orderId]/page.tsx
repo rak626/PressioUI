@@ -1,17 +1,21 @@
 'use client'
 import OrderParagraph from '@/components/OrderParagraph'
+import { Button } from '@/components/ui/button'
 import {
   Card,
   CardContent,
+  CardFooter,
   CardHeader,
-  CardTitle
+  CardTitle,
 } from '@/components/ui/card'
 import { orders } from '@/constants/orderData'
+import { cn } from '@/lib/utils'
 import { OrderStatus } from '@/utils/orderStatus'
 import moment from 'moment'
+import { Inter } from 'next/font/google'
 import { usePathname } from 'next/navigation'
 import { useCallback } from 'react'
-
+const inter = Inter({ subsets: ['latin'] })
 // import { useQuery } from 'react-query'
 // import { getOrderById } from '@/lib/orders'
 // import Loading from '@/components/ui/loading'
@@ -34,15 +38,21 @@ const OrderIdPage = () => {
   const timestamp = moment.duration(elapsedTime(), 'seconds').humanize()
 
   return (
-    <div className=" bg-gradient-to-tr from-[rgb(0,0,0)]  to-[rgb(78,75,75)] min-h-screen pt-20">
-      <Card className=" container mx-auto w-3/4 lg:w-2/4 ">
+    <div className="min-h-screen pt-20">
+      <Card className="mx-auto w-full lg:w-3/4 bg-transparent border-none">
         <CardHeader>
-          <CardTitle className="text-2xl text-rose-500">
+          <CardTitle
+            className={cn(
+              'text-primary text-3xl tracking-wider',
+              inter.className
+            )}
+          >
             Order Details
+            <hr className="border-gray-500 mt-6 w-full lg:w-1/6" />
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 gap-x-[5rem] lg:grid-cols-2">
             <OrderParagraph value={order?.orderId} header={'Order Id'} />
             <OrderParagraph value={order?.orderName} header={'Order Name'} />
             <OrderParagraph
@@ -68,6 +78,9 @@ const OrderIdPage = () => {
             <OrderParagraph value={timestamp} header={'Elapsed Time'} />
           </div>
         </CardContent>
+        <CardFooter className="flex justify-center lg:justify-end py-4">
+          <Button className="w-24">Edit</Button>
+        </CardFooter>
       </Card>
     </div>
   )
