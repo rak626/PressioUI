@@ -38,7 +38,7 @@ const OrderIdPage = () => {
   const timestamp = moment.duration(elapsedTime(), 'seconds').humanize()
 
   return (
-    <div className="min-h-screen pt-20">
+    <div className="h-screen pt-8">
       <Card className="mx-auto w-full lg:w-3/4 bg-transparent border-none">
         <CardHeader>
           <CardTitle

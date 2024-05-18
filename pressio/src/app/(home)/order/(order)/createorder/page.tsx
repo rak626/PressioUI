@@ -24,6 +24,7 @@ import { CreateOrderFormSchema } from '@/lib/types/from-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+
 const CreateOrderPage = () => {
   const form = useForm<z.infer<typeof CreateOrderFormSchema>>({
     resolver: zodResolver(CreateOrderFormSchema),
@@ -33,7 +34,6 @@ const CreateOrderPage = () => {
       isUrgent: false,
     },
   })
-
   const submitHandler = (data: z.infer<typeof CreateOrderFormSchema>) => {
     console.log('data .. . ... ')
     console.log({ data })
