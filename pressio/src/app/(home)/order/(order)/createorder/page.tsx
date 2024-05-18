@@ -127,7 +127,7 @@ const CreateOrderPage = () => {
               }}
             />
             <div className="flex justify-end items-center gap-6">
-              <Button type="reset" className="w-24">
+              <Button type="reset" className="w-24 md:w-32">
                 Reset
               </Button>
               <Button type="submit" className="">
