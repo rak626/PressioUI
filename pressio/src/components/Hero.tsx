@@ -30,12 +30,12 @@ const Hero = () => {
               anton.className
             )}
           >
-            <h1 className="text-center text-secondary text-[6rem] md:text-[8rem]">
+            <h1 className="text-center text-secondary text-[6rem] md:text-[8rem] 3xl:text-[12rem]">
               {' '}
               Stand Out.
             </h1>
             <br />
-            <p className="text-center text-secondary text-[6rem] md:text-[7.5rem]">
+            <p className="text-center text-secondary text-[6rem] md:text-[7.5rem] 3xl:text-[12rem]">
               {' '}
               Wear Custom.
             </p>

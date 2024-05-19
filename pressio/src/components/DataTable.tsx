@@ -204,14 +204,14 @@ export function DataTable<TData, TValue>({
       {/* Table preview */}
       <div className=" overflow-hidden rounded-sm border-b py-3">
         <Table>
-          <TableHeader className="bg-primary shadow-lg">
+          <TableHeader className="bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-none">
+              <TableRow key={headerGroup.id} className="border-none hover:bg-primary">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-white text-center"
+                      className="text-center text-secondary"
                       onClick={header.column.getToggleSortingHandler()}
                     >
                       {header.isPlaceholder
