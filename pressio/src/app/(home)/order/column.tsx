@@ -1,18 +1,8 @@
 'use client'
 import TableAction from '@/components/TableAction'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { Order } from '@/lib/types/order-types'
+import { Order } from '@/types/order-types'
 import { OrderStatus } from '@/utils/orderStatus'
 import { ColumnDef } from '@tanstack/react-table'
-import { MoreHorizontal } from 'lucide-react'
 import Link from 'next/link'
 
 export const columns: ColumnDef<Order>[] = [

@@ -1,4 +1,4 @@
-import { Order } from '@/lib/types/order-types'
+import { Order } from '@/types/order-types'
 
 // export const OrderStatus: { [key: number]: string } = Object.freeze({
 //   0: 'Design Pending',

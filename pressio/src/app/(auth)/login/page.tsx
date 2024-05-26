@@ -1,8 +1,99 @@
+'use client'
+import { CustomInput } from '@/components/CustomInput'
+import { Button } from '@/components/ui/button'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+import { LoginFormSchema } from '@/schema/LoginFormSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
 import React from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
+  const router = useRouter()
+  const form = useForm<z.infer<typeof LoginFormSchema>>({
+    resolver: zodResolver(LoginFormSchema),
+    defaultValues: {
+      phone: '',
+      password: '',
+    },
+  })
+
+  const submitForm = async (data: z.infer<typeof LoginFormSchema>) => {
+    console.log('login form data: ', data)
+    try {
+      const result = await signIn('credentials', {
+        phone: data.phone,
+        password: data.password,
+        redirect: false,
+      })
+      console.log('result: ', result)
+      if (result?.ok) {
+        router.push('/order')
+      }
+      // Optionally, you can display a success message here or perform any additional actions
+    } catch (error) {
+      console.error(error) // Log the error for debugging purposes
+      // Handle authentication errors, e.g., invalid credentials or network issues
+    }
+  }
   return (
-    <div>LoginPage</div>
+    <main className=" container md:w-2/3 lg:w-1/3 mx-auto min-h-screen pt-36">
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(submitForm)}>
+          <div className="flex flex-col gap-10">
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="text-white text-lg">Phone</FormLabel>
+                    <FormControl>
+                      <CustomInput type="text" {...field} className="" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <FormField
+              control={form.control}
+              name="password"
+              render={({ field }) => {
+                return (
+                  <FormItem>
+                    <FormLabel className="text-white text-lg">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <CustomInput type="password" {...field} className="" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )
+              }}
+            />
+            <div className="flex justify-end items-center gap-6">
+              <Button type="reset" className="">
+                Reset
+              </Button>
+              <Button type="submit" className="">
+                Submit
+              </Button>
+            </div>
+          </div>
+        </form>
+      </Form>
+    </main>
   )
 }
 
