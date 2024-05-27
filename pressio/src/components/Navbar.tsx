@@ -1,15 +1,17 @@
 'use client'
 import { navlinks } from '@/constants/navlinks'
-import React from 'react'
-import MobileNav from './MobileNav'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Button } from './ui/button'
-import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
+import { signOut, useSession } from 'next-auth/react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import MobileNav from './MobileNav'
+import { Button } from './ui/button'
 
 const Navbar = () => {
   const pathName = usePathname()
+  const { data: session } = useSession()
+  console.log(session)
   return (
     <nav className="w-full z-40 px-6 py-2 flex items-center justify-between gap-8 bg-nav text-secondary shadow-2xl bg-blur-sm lg:justify-around">
       {/* logo section */}
@@ -20,7 +22,7 @@ const Navbar = () => {
             alt="logo"
             width={70}
             height={70}
-            className='bg-[hsl(0,7%,19%)] rounded-full shadow-sm'
+            className="bg-[hsl(0,7%,19%)] rounded-full shadow-sm"
           />
         </Link>
       </div>
@@ -31,7 +33,11 @@ const Navbar = () => {
             pathName === navlink.href || pathName.startsWith(`${navlink.href}/`)
           return (
             <Link key={navlink.name} href={navlink.href}>
-              <div className={cn('tracking-widest hover:text-primary/40', { 'text-primary': isActive })}>
+              <div
+                className={cn('tracking-widest hover:text-primary/40', {
+                  'text-primary': isActive,
+                })}
+              >
                 {navlink.name}
               </div>
             </Link>
@@ -43,9 +49,24 @@ const Navbar = () => {
         <Button asChild>
           <Link href="/order/createorder">Create Order</Link>
         </Button>
-        <Button asChild>
-          <Link href="/login">Login</Link>
-        </Button>
+        {!session && (
+          <>
+            <Button>
+              <Link href="/login">Login</Link>
+            </Button>
+            <Button>
+              <Link href="/register">Register</Link>
+            </Button>
+          </>
+        )}{' '}
+        {session && (
+          <>
+            <Button className='w-24 overflow-hidden'>
+              <Link href="/profile">{session.user.username}</Link>
+            </Button>
+            <Button onClick={async () => await signOut()}>Logout</Button>
+          </>
+        )}
       </div>
       <MobileNav />
     </nav>

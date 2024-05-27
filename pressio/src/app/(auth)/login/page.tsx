@@ -11,14 +11,14 @@ import {
 } from '@/components/ui/form'
 import { LoginFormSchema } from '@/schema/LoginFormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
-import React from 'react'
+import { signIn } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 
 const LoginPage = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -33,16 +33,11 @@ const LoginPage = () => {
       const result = await signIn('credentials', {
         phone: data.phone,
         password: data.password,
-        redirect: false,
+        redirect: true,
+        callbackUrl: (searchParams.get('callbackUrl') || '/') as string,
       })
-      console.log('result: ', result)
-      if (result?.ok) {
-        router.push('/order')
-      }
-      // Optionally, you can display a success message here or perform any additional actions
     } catch (error) {
-      console.error(error) // Log the error for debugging purposes
-      // Handle authentication errors, e.g., invalid credentials or network issues
+      console.error(error)
     }
   }
   return (
