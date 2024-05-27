@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav className="w-full z-40 px-6 py-2 flex items-center justify-between gap-8 bg-nav text-secondary shadow-2xl bg-blur-sm lg:justify-around">
       {/* logo section */}
-      <div className="flex items-center justify-center">
+      <div className="w-1/12 flex items-center justify-center">
         <Link href="/">
           <Image
             src={'/icons/InkTownLogo.svg'}
@@ -45,26 +45,31 @@ const Navbar = () => {
         })}
       </div>
       {/* button section */}
-      <div className="hidden lg:flex gap-8">
-        <Button asChild>
+      <div className="hidden lg:flex gap-4">
+        <Button asChild variant={'ghost'} className='rounded-full'>
           <Link href="/order/createorder">Create Order</Link>
         </Button>
         {!session && (
           <>
-            <Button>
+            <Button className="rounded-full">
               <Link href="/login">Login</Link>
             </Button>
-            <Button>
+            <Button className="rounded-full">
               <Link href="/register">Register</Link>
             </Button>
           </>
         )}{' '}
         {session && (
           <>
-            <Button className='w-24 overflow-hidden'>
+            <Button className="rounded-full">
               <Link href="/profile">{session.user.username}</Link>
             </Button>
-            <Button onClick={async () => await signOut()}>Logout</Button>
+            <Button
+              className="rounded-full"
+              onClick={async () => await signOut()}
+            >
+              Logout
+            </Button>
           </>
         )}
       </div>
