@@ -2,7 +2,7 @@ import React from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu'
 import { Button } from './ui/button'
 import { MoreHorizontal } from 'lucide-react'
-import type { Order } from '@/lib/types/order-types'
+import type { Order } from '@/types/order-types'
 import Link from 'next/link'
 
 const TableAction = ({order}:{order:Order}) => {
