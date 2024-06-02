@@ -2,6 +2,7 @@ import AuthProvider from '@/context/AuthProvider'
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
+import QueryProvider from '@/context/QueryClientProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 const poppins = Poppins({ weight: '400', subsets: ['latin'] })
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className}>
-        <AuthProvider>{children}</AuthProvider>
+        <QueryProvider>
+          <AuthProvider>{children}</AuthProvider>
+        </QueryProvider>
       </body>
     </html>
   )

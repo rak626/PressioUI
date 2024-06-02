@@ -1,4 +1,5 @@
 'use client'
+import createOrder from '@/app/api/order/createOrder'
 import { CustomInput } from '@/components/CustomInput'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -14,8 +15,12 @@ import { CreateOrderFormSchema } from '@/schema/CreateOrderFormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import { useMutation } from '@tanstack/react-query'
+import CustomErrorPage from '@/components/CustomErrorPage'
+import { useRouter } from 'next/navigation'
 
 const CreateOrderPage = () => {
+  const router = useRouter()
   const form = useForm<z.infer<typeof CreateOrderFormSchema>>({
     resolver: zodResolver(CreateOrderFormSchema),
     defaultValues: {
@@ -24,11 +29,25 @@ const CreateOrderPage = () => {
       isUrgent: false,
     },
   })
+
+  const createOrderMutation = useMutation({
+    mutationKey: ['createOrder'],
+    mutationFn: (data: z.infer<typeof CreateOrderFormSchema>) =>
+      createOrder(data),
+  })
   const submitHandler = (data: z.infer<typeof CreateOrderFormSchema>) => {
     console.log('data .. . ... ')
-    console.log({ data })
+    console.log("outgoing data ======> : ", data)
+    createOrderMutation.mutate(data, {
+      onSuccess: (data) => {
+        console.log("incoming data <====== : ", data)
+        router.push(`/order/${data.orderId}`)
+      },
+    })
   }
-
+  if(createOrderMutation.isError){
+    return <CustomErrorPage/>
+  }
   return (
     <main className=" container mx-auto min-h-screen pt-36 overflow-y-auto">
       <Form {...form}>
