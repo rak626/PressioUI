@@ -6,12 +6,12 @@ Pressio is a web application that helps to track orders for printing press. This
 
 ## Diffrent Sections
 #### Home
-![Home_Page](image.png)
+![Home_Page](/images/image.png)
 #### Order_Page
-![Order_Page](image-1.png)
+![Order_Page](/images/image-1.png)
 #### Order_Details_Page
-![Order_Details_Page](image-2.png)
+![Order_Details_Page](/images/image-2.png)
 #### Create_Order_Page
-![Create_Order_Page](image-3.png)
+![Create_Order_Page](/images/image-3.png)
 #### Login_Page
-![Login_Page](image-4.png)
+![Login_Page](/images/image-4.png)
