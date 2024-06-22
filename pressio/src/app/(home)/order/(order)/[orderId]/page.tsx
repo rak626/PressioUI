@@ -11,13 +11,12 @@ import {
 
 import { getOrderById } from '@/app/api/order/getOrders'
 import { cn } from '@/lib/utils'
-import type { Order } from '@/types/order-types'
 import { OrderStatus } from '@/utils/orderStatus'
 import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import { Inter } from 'next/font/google'
 import { usePathname } from 'next/navigation'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 const inter = Inter({ subsets: ['latin'] })
 // import { getOrderById } from '@/lib/orders'
 // import Loading from '@/components/ui/loading'
