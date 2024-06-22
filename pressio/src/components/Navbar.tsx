@@ -11,7 +11,7 @@ import { Button } from './ui/button'
 const Navbar = () => {
   const pathName = usePathname()
   const { data: session } = useSession()
-  console.log(session?.token)
+  console.log(session?.user?.username)
   return (
     <nav className="w-full z-40 px-6 py-2 flex items-center justify-between gap-8 bg-nav text-secondary shadow-2xl bg-blur-sm lg:justify-around">
       {/* logo section */}

@@ -1,5 +1,6 @@
 'use client'
 import createOrder from '@/app/api/order/createOrder'
+import CustomErrorPage from '@/components/CustomErrorPage'
 import { CustomInput } from '@/components/CustomInput'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
@@ -13,20 +14,31 @@ import {
 } from '@/components/ui/form'
 import { CreateOrderFormSchema } from '@/schema/CreateOrderFormSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useMutation } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { useMutation } from '@tanstack/react-query'
-import CustomErrorPage from '@/components/CustomErrorPage'
-import { useRouter } from 'next/navigation'
 
 const CreateOrderPage = () => {
   const router = useRouter()
+  const { data: session } = useSession()
   const form = useForm<z.infer<typeof CreateOrderFormSchema>>({
     resolver: zodResolver(CreateOrderFormSchema),
     defaultValues: {
       orderName: '',
       orderDesc: '',
       isUrgent: false,
+      squareFeet: 1,
+      length: 1,
+      width: 1,
+      isEyelet: false,
+      quality: 1,
+      quantity: 1,
+      customerName: session?.user?.username || '',
+      customerPhoneNo: session?.user?.username || '',
+      customerEmail: session?.user?.username || '',
+      uniqueUserId: session?.user?.userId || '',
     },
   })
 
@@ -37,16 +49,15 @@ const CreateOrderPage = () => {
   })
   const submitHandler = (data: z.infer<typeof CreateOrderFormSchema>) => {
     console.log('data .. . ... ')
-    console.log("outgoing data ======> : ", data)
+    console.log('outgoing data ======> : ', data)
     createOrderMutation.mutate(data, {
       onSuccess: (data) => {
-        console.log("incoming data <====== : ", data)
-        router.push(`/order/${data.orderId}`)
+        router.push(`/order/${data.data.orderId}`)
       },
     })
   }
-  if(createOrderMutation.isError){
-    return <CustomErrorPage/>
+  if (createOrderMutation.isError) {
+    return <CustomErrorPage />
   }
   return (
     <main className=" container mx-auto min-h-screen pt-36 overflow-y-auto">

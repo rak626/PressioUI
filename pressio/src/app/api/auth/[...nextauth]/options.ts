@@ -39,7 +39,7 @@ export const authOptions: NextAuthOptions = {
             password: credentials.password,
           })
           const user = response.data
-          console.log('user: ', user)
+          console.log(user)
           if (!user) {
             throw new Error('Invalid credentials')
           }
@@ -56,7 +56,7 @@ export const authOptions: NextAuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session: ({ session, token }) => ({ ...session, ...token }),
+    session: ({ session, token, user }) => ({ ...session, ...token, ...user }),
     jwt: ({ token, user }) => ({ ...token, ...user }),
   },
   pages: {

@@ -8,21 +8,24 @@ export const authInstance = axios.create({
   },
 })
 
-export const apiInstance = axios.create()
-
-apiInstance.interceptors.request.use(async (config) => {
-  console.log('interceptor config: ', config)
-  const session = await getSession()
-  if (session && session?.token) {
-    console.log('token: ', session.token)
-    config.headers.Authorization = `Bearer ${session?.token}`
-    config.headers['Content-Type'] = 'application/json',
-    config.baseURL = process.env.NEXT_PUBLIC_API_URL
-  }
-  return config
-}, function (error) {
-  return Promise.reject(error)
+export const apiInstance = axios.create({
+  headers: {
+    'Content-Type': 'application/json',
+  },
 })
+
+apiInstance.interceptors.request.use(
+  async (config) => {
+    const session = await getSession()
+    if (session && session?.token) {
+      config.headers.Authorization = `Bearer ${session?.token}`
+    }
+    return config
+  },
+  function (error) {
+    return Promise.reject(error)
+  }
+)
 // {
 //     "user": {
 //         "userId": "ecc9744c-56a4-4dce-8e34-b30f967c4dee",
