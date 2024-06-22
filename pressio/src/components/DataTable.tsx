@@ -60,8 +60,6 @@ export function DataTable<TData, TValue>({
     assignedTo: false,
     createdAt: true,
     lastModifiedAt: true,
-    userNameOfEmp: true,
-    userNameOfCustomer: true,
   })
   const table = useReactTable({
     data,
@@ -144,13 +142,15 @@ export function DataTable<TData, TValue>({
                   <DropdownMenuLabel>Order Status</DropdownMenuLabel>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                {Object.keys(OrderStatus).map((status) => {
-                  return (
-                    <DropdownMenuRadioItem key={status} value={status}>
-                      {OrderStatus[+status]}
-                    </DropdownMenuRadioItem>
-                  )
-                })}
+                {Object.keys(OrderStatus)
+                  .filter((key) => !isNaN(Number(key)))
+                  .map((status: string) => {
+                    return (
+                      <DropdownMenuRadioItem key={status} value={status}>
+                        {OrderStatus[status as keyof typeof OrderStatus]}
+                      </DropdownMenuRadioItem>
+                    )
+                  })}
               </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -206,7 +206,10 @@ export function DataTable<TData, TValue>({
         <Table>
           <TableHeader className="bg-primary">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id} className="border-none hover:bg-primary">
+              <TableRow
+                key={headerGroup.id}
+                className="border-none hover:bg-primary"
+              >
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
