@@ -8,29 +8,50 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { orders } from '@/constants/orderData'
+
+import { getOrderById } from '@/app/api/order/getOrders'
 import { cn } from '@/lib/utils'
 import { OrderStatus } from '@/utils/orderStatus'
+import { useQuery } from '@tanstack/react-query'
 import moment from 'moment'
 import { Inter } from 'next/font/google'
 import { usePathname } from 'next/navigation'
 import { useCallback } from 'react'
 const inter = Inter({ subsets: ['latin'] })
-// import { useQuery } from 'react-query'
 // import { getOrderById } from '@/lib/orders'
 // import Loading from '@/components/ui/loading'
 // import ErrorComponent from '@/components/ui/error'
 
 const OrderIdPage = () => {
+  const initOrder = {
+    orderId: '',
+    orderName: '',
+    orderDesc: '',
+    squareFeet: 0,
+    orderStatus: 0,
+    isUrgent: false,
+    createdBy: '',
+    assignedTo: '',
+    createdAt: '',
+    lastModifiedAt: '',
+    userNameOfEmp: '',
+    userNameOfCustomer: '',
+  }
   const orderId = usePathname().replace('/order/', '')
-  // const { isLoading, isError, data, error } = useQuery(
-  //   ['order', orderId],
-  //   () => getOrderById(orderId)
-  // )
+  const {
+    isLoading,
+    isError,
+    data: order,
+    error,
+  } = useQuery({
+    queryKey: ['order', orderId],
+    queryFn: () => getOrderById(orderId),
+    initialData: initOrder,
+  })
 
   // if (isLoading) return <Loading />
   // if (isError) return <ErrorComponent error={error} />
-  const order = orders[parseInt(orderId) - 1]
+  // const order = orders[parseInt(orderId) - 1]
   const elapsedTime = useCallback(
     () => moment().diff(moment(order?.createdAt), 'seconds'),
     [order?.createdAt]

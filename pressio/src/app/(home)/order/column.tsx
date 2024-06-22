@@ -3,6 +3,7 @@ import TableAction from '@/components/TableAction'
 import { Order } from '@/types/order-types'
 import { OrderStatus } from '@/utils/orderStatus'
 import { ColumnDef } from '@tanstack/react-table'
+import moment from 'moment'
 import Link from 'next/link'
 
 export const columns: ColumnDef<Order>[] = [
@@ -65,18 +66,18 @@ export const columns: ColumnDef<Order>[] = [
   {
     accessorKey: 'createdAt',
     header: 'Created At',
+    cell: ({ row }) => {
+      const createdAt: string = row.getValue('createdAt')
+      return moment(createdAt).format('DD-MM-YYYY')
+    },
   },
   {
     accessorKey: 'lastModifiedAt',
     header: 'Last Modified At',
-  },
-  {
-    accessorKey: 'userNameOfEmp',
-    header: 'Empolyee Name',
-  },
-  {
-    accessorKey: 'userNameOfCustomer',
-    header: 'Customer Name',
+    cell: ({ row }) => {
+      const lastModifiedAt: string = row.getValue('lastModifiedAt')
+      return moment(lastModifiedAt).format('DD-MM-YYYY')
+    },
   },
   {
     id: 'actions',

@@ -13,15 +13,15 @@ import { Order } from '@/types/order-types'
 // })
 
 export enum OrderStatus{
-  DesignPending = 0,
-  DesignProgress = 1,
-  PrintPending = 2,
-  PrintProgress = 3,
-  PackagingPending = 4,
-  PackagingProgress = 5,
-  ReadyForDelivery = 6,
-  Dispatched = 7,
-  Delivered = 8
+  "DesignPending" = 0,
+  "DesignProgress" = 1,
+  "PrintPending" = 2,
+  "PrintProgress" = 3,
+  "PackagingPending" = 4,
+  "PackagingProgress" = 5,
+  "ReadyForDelivery" = 6,
+  "Dispatched" = 7,
+  "Delivered" = 8
 }
 
 // export enum OrderStatus{

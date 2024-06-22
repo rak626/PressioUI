@@ -1,8 +1,7 @@
 import { LoginFormSchema } from '@/schema/LoginFormSchema'
-import { NextAuthOptions } from 'next-auth'
-import axios from 'axios'
-import CredentialsProvider from 'next-auth/providers/credentials'
 import { authInstance } from '@/utils/axiosUtil'
+import { NextAuthOptions } from 'next-auth'
+import CredentialsProvider from 'next-auth/providers/credentials'
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -10,8 +9,14 @@ export const authOptions: NextAuthOptions = {
       id: 'credentials',
       name: 'Credentials',
       credentials: {
-        phone: { label: 'Phone Number', type: 'text' },
-        password: { label: 'Password', type: 'password' },
+        phone: {
+          label: 'Phone Number',
+          type: 'text',
+        },
+        password: {
+          label: 'Password',
+          type: 'password',
+        },
       },
       async authorize(credentials) {
         // Validate and authenticate the user using your custom logic here
@@ -34,7 +39,7 @@ export const authOptions: NextAuthOptions = {
             password: credentials.password,
           })
           const user = response.data
-          console.log('user: ', user)
+          console.log(user)
           if (!user) {
             throw new Error('Invalid credentials')
           }
@@ -47,10 +52,14 @@ export const authOptions: NextAuthOptions = {
   ],
   session: {
     strategy: 'jwt',
+    maxAge: 60 * 60 * 24,
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session: ({ session, user }) => ({ ...session, user }),
+    session: ({ session, token, user }) => ({ ...session, ...token, ...user }),
     jwt: ({ token, user }) => ({ ...token, ...user }),
+  },
+  pages: {
+    signIn: '/login',
   },
 }

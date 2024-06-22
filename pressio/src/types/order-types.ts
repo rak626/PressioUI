@@ -9,6 +9,4 @@ export type Order = {
   assignedTo: string
   createdAt: string
   lastModifiedAt: string
-  userNameOfEmp?: string
-  userNameOfCustomer?: string
 }

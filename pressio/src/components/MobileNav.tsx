@@ -1,25 +1,22 @@
-import React from 'react'
 import {
   Sheet,
   SheetClose,
   SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
+  SheetTrigger
 } from './ui/sheet'
 
 import { navlinks } from '@/constants/navlinks'
-import { usePathname, useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { cn } from '@/lib/utils'
 import { Menu } from 'lucide-react'
+import { signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
 import { Button } from './ui/button'
-import { Router } from 'next/router'
 
 const MobileNav = () => {
   const pathName = usePathname()
   const router = useRouter()
+  const { data: session } = useSession()
   return (
     <div className="lg:hidden ">
       <Sheet>
@@ -64,14 +61,42 @@ const MobileNav = () => {
                   >
                     Create Order
                   </Button>
-
-                  <Button
-                    className="border border-rose-300  hover:bg-gray-500"
-                    variant={'ghost'}
-                    onClick={() => router.push('/login')}
-                  >
-                    Login
-                  </Button>
+                  {!session && (
+                    <>
+                      <Button
+                        className="border border-rose-300  hover:bg-gray-500"
+                        variant={'ghost'}
+                        onClick={() => router.push('/login')}
+                      >
+                        Login
+                      </Button>
+                      <Button
+                        className="border border-rose-300  hover:bg-gray-500"
+                        variant={'ghost'}
+                        onClick={() => router.push('/register')}
+                      >
+                        Register
+                      </Button>
+                    </>
+                  )}
+                  {session && (
+                    <>
+                      <Button
+                        className="border border-rose-300  hover:bg-gray-500"
+                        variant={'ghost'}
+                        onClick={() => router.push('/profile')}
+                      >
+                        Profile
+                      </Button>
+                      <Button
+                        className="border border-rose-300  hover:bg-gray-500"
+                        variant={'ghost'}
+                        onClick={async () => await signOut()}
+                      >
+                        Logout
+                      </Button>
+                    </>
+                  )}
                 </div>
               </SheetClose>
             </div>
